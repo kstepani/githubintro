@@ -2,7 +2,25 @@ import random
 import operator
 import matplotlib.pyplot
 import agentframework
+import csv
 
+#read the csv file and create a 2D List
+
+
+with open('in.txt', newline='') as f:
+    reader = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)
+    environment=[]
+    for row in reader:
+        rowlist=[]
+        for value in row:
+            rowlist.append(value)
+        environment.append(rowlist)
+        
+#plot the raster image
+matplotlib.pyplot.imshow(environment)
+matplotlib.pyplot.show()            
+
+            
 #define distance function            
 def distance_between(agents_row_a, agents_row_b):
     return (((agents_row_a.x - agents_row_b.x)**2) + 
@@ -14,13 +32,14 @@ agents = []
 
 # Make the agents.
 for i in range(num_of_agents):
-    agents.append(agentframework.Agent())
+    agents.append(agentframework.Agent(environment))
 
 
 # Move the agents.
 for j in range(num_of_iterations):
     for i in range(num_of_agents):
         agents[i].move()
+        agents[i].eat()
 
 #plot the agents
 matplotlib.pyplot.xlim(0, 99)
