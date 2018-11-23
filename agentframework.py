@@ -1,11 +1,16 @@
 import random
-class Agent():    
-    def __init__(self, environment):
+class Agent(): 
+    #initialising x,y,environment,agents
+    def __init__(self, environment, agents, neighbourhood):
         self.x=random.randint(0,99)
         self.y=random.randint(0,99)
         self.environment = environment
-        self.store = 0 # We'll come to this in a second.
-         
+        self.store = 0 
+        self.agents = agents
+        self.neighbourhood = neighbourhood
+        
+        
+   #define move method      
     def move(self):
         if random.random() < 0.5:
             self.y = (self.y + 1) % 100
@@ -16,8 +21,28 @@ class Agent():
             self.x = (self.x + 1) % 100
         else:
             self.x = (self.x - 1) % 100
-    
+            
+    #define eat method
     def eat(self): # can you make it eat what is left?
         if self.environment[self.y][self.x] > 10:
             self.environment[self.y][self.x] -= 10
-            self.store += 10            
+            self.store += 10
+    
+    
+    #define distance function            
+    def distance_between(self,agents):
+        return (((self.x - agents.x)**2) + ((self.y - agents.y)**2))**0.5 
+         
+                
+    #define share_with_neighbours method
+    def share_with_neighbours(self, neighbourhood):
+        for agent in self.agents:
+            dist = self.distance_between(agent) 
+            if dist <= neighbourhood:
+                total = self.store + agent.store
+                ave = total /2
+                self.store = ave
+                agent.store = ave
+                print("sharing " + str(dist) + " " + str(ave))
+    
+           
