@@ -43,6 +43,6 @@ class Agent():
                 ave = total /2
                 self.store = ave
                 agent.store = ave
-                print("sharing " + str(dist) + " " + str(ave))
+                #print("sharing " + str(dist) + " " + str(ave))
     
            
